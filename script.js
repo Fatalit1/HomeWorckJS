@@ -1,39 +1,61 @@
 /* Задание на урок:
 
-1) Создать переменную numberOfFilms и в неё поместить ответ от пользователя на вопрос:
-'Сколько фильмов вы уже посмотрели?'
+1) Автоматизировать вопросы пользователю про фильмы при помощи цикла
 
-2) Создать объект personalMovieDB и в него поместить такие свойства:
-    - count - сюда передается ответ на первый вопрос
-    - movies - в это свойство поместить пустой объект
-    - actors - тоже поместить пустой объект
-    - genres - сюда поместить пустой массив
-    - privat - в это свойство поместить boolean(логическое) значение false
+2) Сделать так, чтобы пользователь не мог оставить ответ в виде пустой строки,
+отменить ответ или ввести название фильма длинее, чем 50 символов. Если это происходит - 
+возвращаем пользователя к вопросам опять
 
-3) Задайте пользователю по два раза вопросы:
-    - 'Один из последних просмотренных фильмов?'
-    - 'На сколько оцените его?'
-Ответы стоит поместить в отдельные переменные
-Записать ответы в объект movies в формате: 
-    movies: {
-        'logan': '8.1'
-    }
+3) При помощи условий проверить  personalMovieDB.count, и если он меньше 10 - вывести сообщение
+"Просмотрено довольно мало фильмов", если от 10 до 30 - "Вы классический зритель", а если больше - 
+"Вы киноман". А если не подошло ни к одному варианту - "Произошла ошибка"
 
-Проверить, чтобы все работало без ошибок в консоли */
+4) Потренироваться и переписать цикл еще двумя способами*/
 
 "use strict";
-let numberOfFilms = prompt("Сколько фильмов вы уже посмотрели?", ""),
-  personalMovieDB = {
-    count: numberOfFilms,
+let personalMovieDB = {
     movies: {},
     actrors: {},
     geners: [],
     private: false,
-  };
-let lastFilm = prompt("Один из последних просмотренних фильмов", ""),
-  markFilm = prompt("На сколько оцените его?", "");
-personalMovieDB.movies[lastFilm] = markFilm;
-(lastFilm = prompt("Один из последних просмотренних фильмов", "")),
-  (markFilm = prompt("На сколько оцените его?", ""));
-personalMovieDB.movies[lastFilm] = markFilm;
+  },
+  numberOfFilms = prompt("Сколько фильмов вы уже посмотрели?", "");
+personalMovieDB.count = numberOfFilms;
+while (
+  Number.isNaN(+numberOfFilms) ||
+  numberOfFilms === null ||
+  numberOfFilms === ""
+) {
+  numberOfFilms = prompt("Сколько фильмов вы уже посмотрели?", "");
+  personalMovieDB.count = numberOfFilms;
+}
+switch (true) {
+  case numberOfFilms < 10: {
+    alert("Просмотрено довольно мало фильмов");
+    break;
+  }
+  case numberOfFilms >= 10 && numberOfFilms <= 30: {
+    alert("Вы классический зритель");
+    break;
+  }
+  case numberOfFilms > 30: {
+    alert("Вы киноман");
+    break;
+  }
+  default: {
+    alert("Произошла ошибка");
+  }
+}
+for (let i = 0; i < 2; i++) {
+  let lastFilm = prompt("Один из последних просмотренних фильмов", "");
+  while (lastFilm === null || lastFilm === "" || lastFilm.length > 50) {
+    lastFilm = prompt("Один из последних просмотренних фильмов", "");
+  }
+  let markFilm = prompt("На сколько оцените его?", "");
+  while (Number.isNaN(+markFilm) || markFilm === null || markFilm === "") {
+    markFilm = prompt("На сколько оцените его?", "");
+  }
+
+  personalMovieDB.movies[lastFilm] = markFilm;
+}
 console.log(personalMovieDB);
